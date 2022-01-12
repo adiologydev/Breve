@@ -8,4 +8,7 @@ module.exports = withBundleAnalyzer({
   trailingSlash: true,
   basePath: '',
   reactStrictMode: true,
+  env: {
+    MONGO_URL: process.env.MONGO_URL,
+  },
 });
