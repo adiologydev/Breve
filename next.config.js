@@ -9,6 +9,6 @@ module.exports = withBundleAnalyzer({
   basePath: '',
   reactStrictMode: true,
   env: {
-    MONGO_URL: process.env.MONGO_URL,
+    HOST: process.env.HOST,
   },
 });
