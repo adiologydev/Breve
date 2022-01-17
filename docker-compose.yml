@@ -1,0 +1,11 @@
+version: "3.3"
+
+services:
+  breve:
+    ports:
+      - 2302:3000
+    build: .
+    volumes:
+      - /breve
+    env_file:
+      - .env
