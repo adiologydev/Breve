@@ -1,6 +1,4 @@
-FROM node:alpine-3.14
-
-ENV NODE_VERSION 16.13.2
+FROM node:16-alpine3.15
 
 ENV PORT 3000
 
