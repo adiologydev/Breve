@@ -22,16 +22,13 @@ const Index = () => {
     };
     if (alias.length < 1) delete props.customAlias;
 
-    const fetchApi: ShortAPIResponse = await fetch(
-      `${process.env.HOST}/api/short`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(props),
-      }
-    ).then((d) => d.json());
+    const fetchApi: ShortAPIResponse = await fetch(`/api/short`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(props),
+    }).then((d) => d.json());
     if (fetchApi.error) {
       setError(fetchApi.error);
     }

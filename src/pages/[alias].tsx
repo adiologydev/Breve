@@ -9,8 +9,9 @@ const Alias: NextPage<AliasProps> = ({ error }) => {
 
 Alias.getInitialProps = async ({ res, query }) => {
   const { alias } = query;
+
   const fetchApi: ShortAPIResponse = await fetch(
-    `${process.env.HOST}/api/short?alias=${alias}`
+    `http://${process.env.HOST}/api/short?alias=${alias}`
   ).then((d) => d.json());
 
   if (fetchApi.error) return { error: fetchApi.error };
