@@ -29,12 +29,15 @@ const Index = () => {
       },
       body: JSON.stringify(props),
     }).then((d) => d.json());
-    if (fetchApi.error) {
-      setError(fetchApi.error);
-    }
+
+    if (fetchApi.error) return setError(fetchApi.error);
+
     setShortURL(`${process.env.HOST}/${fetchApi.data.alias}`);
+    setError('');
     setURL('');
     setAlias('');
+
+    return true;
   };
 
   return (
@@ -55,6 +58,9 @@ const Index = () => {
             className="p-4 w-3/4"
             value={url}
             onChange={(e) => setURL(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') handleSubmit();
+            }}
           />
           <input
             placeholder="Alias (Optional)"
@@ -62,6 +68,9 @@ const Index = () => {
             type="text"
             value={alias}
             onChange={(e) => setAlias(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') handleSubmit();
+            }}
           />
         </div>
         <button
@@ -73,7 +82,7 @@ const Index = () => {
         {shortUrl ? (
           <p className="font-bold">
             Hurray! Here&#39;s your short link!{' '}
-            <a href={shortUrl}>{shortUrl}</a>
+            <a href={`https://${shortUrl}`}>{shortUrl}</a>
           </p>
         ) : null}
         {error ? <p className="font-bold">Oops! {error}</p> : null}
