@@ -1,4 +1,4 @@
-import { NextPage } from 'next';
+import { GetServerSidePropsContext, NextPage } from 'next';
 
 import { ShortAPIResponse } from '@/types/ShortAPI';
 
@@ -7,26 +7,33 @@ const Alias: NextPage<AliasProps> = ({ error }) => {
   return <div>Loading...</div>;
 };
 
-Alias.getInitialProps = async ({ res, query }) => {
-  const { alias } = query;
+export default Alias;
 
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const alias = context.query?.alias;
   const fetchApi: ShortAPIResponse = await fetch(
     `http://${process.env.HOST}/api/short?alias=${alias}`
   ).then((d) => d.json());
 
-  if (fetchApi.error) return { error: fetchApi.error };
+  if (fetchApi.error)
+    return {
+      redirect: {
+        permanent: false,
+        destination: '/404',
+      },
+      props: {
+        error: fetchApi.error,
+      },
+    };
 
-  if (typeof window === 'undefined') {
-    res!.writeHead(301, {
-      location: fetchApi.data.url,
-    });
-    res!.end();
-  }
-  window.location.replace(fetchApi.data.url);
-  return {};
-};
-
-export default Alias;
+  return {
+    redirect: {
+      permanent: true,
+      destination: fetchApi.data.url,
+    },
+    props: {},
+  };
+}
 
 interface AliasProps {
   error?: string;
